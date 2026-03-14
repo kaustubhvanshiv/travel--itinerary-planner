@@ -9,22 +9,122 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --bg-color: #0B1120;
+      --bg-card: #0F172A;
+      --card-surface: #1E293B;
+      --card-hover: #2b3950;
+      --border-color: #334155;
+      --primary-color: #8B5CF6;
+      --secondary-color: #A78BFA;
+      --accent-color: #8B5CF6;
+      --accent-hover: #7C3AED;
+      --glow-color: #A78BFA;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --gradient-primary: linear-gradient(135deg, #8B5CF6, #7C3AED);
+      --gradient-accent: linear-gradient(135deg, #A78BFA, #8B5CF6);
+      --border-radius: 12px;
+      --transition: all 0.28s ease;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #171028 0%, #0F172A 42%, #0B1120 100%);
+      color: var(--text-main);
+    }
+
+    .navbar {
+      background: rgba(17, 24, 39, 0.9);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(2, 6, 23, 0.45);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      transition: color 0.25s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-color);
+    }
+
+    .navbar-brand {
+      color: var(--text-main);
+    }
+
+    .navbar-brand i {
+      color: var(--accent-color);
+      text-shadow: 0 0 12px rgba(167, 139, 250, 0.35);
+    }
+
+    h2,
+    h3 {
+      color: var(--text-main);
+    }
+
+    p {
+      color: var(--text-muted);
+    }
+
     .hero {
-      background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=2021&q=80') center/cover;
+      background: linear-gradient(rgba(11, 17, 32, 0.7), rgba(11, 17, 32, 0.86)), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2200&q=80') center/cover;
       color: white;
       padding: 8rem 0 6rem;
       text-align: center;
     }
 
     .search-bar-hero {
-      background: var(--bg-card);
+      background: rgba(30, 41, 59, 0.58);
       padding: 1.5rem;
       border-radius: var(--border-radius);
       display: flex;
       gap: 1rem;
       max-width: 800px;
       margin: 0 auto;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(167, 139, 250, 0.3);
+      box-shadow: 0 14px 32px rgba(2, 6, 23, 0.45), 0 0 0 1px rgba(167, 139, 250, 0.08) inset;
+      backdrop-filter: blur(10px);
+    }
+
+    .search-input input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .btn {
+      border-radius: 12px;
+      transition: transform 0.28s ease, box-shadow 0.28s ease, background-color 0.28s ease, color 0.28s ease;
+    }
+
+    .btn-primary,
+    .btn-accent {
+      background: var(--gradient-primary);
+      color: #F8FAFC;
+      border: 1px solid rgba(167, 139, 250, 0.45);
+      box-shadow: 0 10px 24px rgba(124, 58, 237, 0.3), 0 0 0 1px rgba(167, 139, 250, 0.24) inset;
+    }
+
+    .btn-primary:hover,
+    .btn-accent:hover {
+      background: linear-gradient(135deg, #7C3AED, #6D28D9);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px rgba(124, 58, 237, 0.35), 0 0 20px rgba(167, 139, 250, 0.35);
+    }
+
+    .btn-outline {
+      background: #182234;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      background: #23314a;
+      border-color: var(--accent-color);
+      color: #F1F5F9;
+    }
+
+    .text-primary {
+      color: var(--accent-color);
     }
 
     .search-input {
@@ -58,18 +158,49 @@
       margin-top: 3rem;
     }
 
+    .featured-destinations .destinations-grid {
+      grid-template-columns: repeat(4, minmax(285px, 1fr));
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .featured-destinations .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1024px) {
+      .featured-destinations .destinations-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .featured-destinations .destinations-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .step-card {
       text-align: center;
       padding: 2rem;
-      background: var(--bg-card);
+      background: var(--card-surface);
       border-radius: var(--border-radius);
       border: 1px solid var(--border-color);
+      box-shadow: 0 8px 24px rgba(2, 6, 23, 0.35);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-4px);
+      background: var(--card-hover);
+      box-shadow: 0 16px 30px rgba(2, 6, 23, 0.45);
     }
 
     .step-icon {
       width: 80px;
       height: 80px;
-      background: rgba(0, 119, 182, 0.1);
+      background: rgba(139, 92, 246, 0.16);
       color: var(--primary-color);
       border-radius: 50%;
       display: flex;
@@ -77,20 +208,47 @@
       justify-content: center;
       font-size: 2rem;
       margin: 0 auto 1.5rem;
+      box-shadow: 0 8px 20px rgba(167, 139, 250, 0.22);
     }
 
     .destination-card {
       position: relative;
-      height: 350px;
-      border-radius: var(--border-radius);
+      height: 380px;
+      border-radius: 16px;
       overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 10px 26px rgba(2, 6, 23, 0.35);
+      transition: all 0.35s ease;
+    }
+
+    .destination-card:hover {
+      transform: translateY(-8px);
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.6),
+        0 0 20px rgba(139, 92, 246, 0.3);
+    }
+
+    .destination-link {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: inherit;
+    }
+
+    .destination-link::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.1));
+      z-index: 1;
     }
 
     .destination-card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.5s;
+      transition: transform 0.35s ease;
     }
 
     .destination-card:hover img {
@@ -102,21 +260,128 @@
       bottom: 0;
       left: 0;
       right: 0;
-      padding: 2rem;
-      background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+      z-index: 2;
+      padding: 1.5rem;
       color: white;
+    }
+
+    .destination-info::before {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--glow-color), var(--accent-color));
+      margin-bottom: 0.9rem;
+    }
+
+    .destination-info h3 {
+      font-size: 1.55rem;
+      line-height: 1.2;
+      font-weight: 800;
+      margin-bottom: 0.35rem;
+      color: #F8FAFC;
+    }
+
+    .destination-info p {
+      color: #cbd5e1;
+      font-size: 0.98rem;
+      margin-bottom: 0;
     }
 
     .testimonials {
-      background: #03045E;
+      background: #111827;
       color: white;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .testimonial-grid {
+      margin-top: 3rem;
+      overflow: hidden;
+      display: block;
+      width: 100%;
+      position: relative;
+    }
+
+    .testimonial-grid::before,
+    .testimonial-grid::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 88px;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .testimonial-grid::before {
+      left: 0;
+      background: linear-gradient(to right, #0b1120, transparent);
+    }
+
+    .testimonial-grid::after {
+      right: 0;
+      background: linear-gradient(to left, #0b1120, transparent);
+    }
+
+    .testimonial-track {
+      display: flex;
+      gap: 24px;
+      width: max-content;
+      animation: testimonials-scroll 34s linear infinite;
+      will-change: transform;
+    }
+
+    .testimonial-group {
+      display: flex;
+      gap: 24px;
+    }
+
+    .testimonials:hover .testimonial-track {
+      animation-play-state: paused;
     }
 
     .testimonial-card {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--card-surface);
       padding: 2rem;
       border-radius: var(--border-radius);
-      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 24px rgba(2, 6, 23, 0.35);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+      flex-shrink: 0;
+      width: 320px;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      background: var(--card-hover);
+      box-shadow: 0 14px 30px rgba(2, 6, 23, 0.45);
+    }
+
+    @keyframes testimonials-scroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(calc(-50% - 12px));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .testimonial-card {
+        width: min(85vw, 320px);
+      }
+    }
+
+    .social-links a {
+      transition: color 0.25s ease, text-shadow 0.25s ease;
+    }
+
+    .social-links a:hover {
+      color: var(--accent-color);
+      text-shadow: 0 0 12px rgba(167, 139, 250, 0.45);
     }
   </style>
 </head>
@@ -193,35 +458,51 @@
     </div>
   </section>
 
-  <section class="py-5" style="background: var(--bg-card);">
+  <section class="py-5 featured-destinations" style="background: var(--bg-card);">
     <div class="container">
       <div class="text-center">
         <h2>Featured Destinations</h2>
       </div>
       <div class="destinations-grid">
         <div class="destination-card">
-          <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80"
-            alt="Dubai">
-          <div class="destination-info">
-            <h3>Dubai, UAE</h3>
-            <p>Luxury & Architecture</p>
-          </div>
+          <a href="explore.html" class="destination-link" aria-label="Explore Santorini destination">
+            <img src="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1400&q=80"
+              alt="Santorini beach coastline">
+            <div class="destination-info">
+              <h3>Santorini, Greece</h3>
+              <p>Beaches & Sunsets</p>
+            </div>
+          </a>
         </div>
         <div class="destination-card">
-          <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80"
-            alt="Bali" class="card-img-top">
-          <div class="destination-info">
-            <h3>Bali, Indonesia</h3>
-            <p>Nature & Relaxation</p>
-          </div>
+          <a href="explore.html" class="destination-link" aria-label="Explore Zermatt destination">
+            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80"
+              alt="Swiss Alps mountain landscape" class="card-img-top">
+            <div class="destination-info">
+              <h3>Zermatt, Switzerland</h3>
+              <p>Mountains & Scenic Trails</p>
+            </div>
+          </a>
         </div>
         <div class="destination-card">
-          <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=800&q=80"
-            alt="Paris">
-          <div class="destination-info">
-            <h3>Paris, France</h3>
-            <p>Romance & Culture</p>
-          </div>
+          <a href="explore.html" class="destination-link" aria-label="Explore Paris destination">
+            <img src="https://images.unsplash.com/photo-1549144511-f099e773c147?auto=format&fit=crop&w=1400&q=80"
+              alt="Paris Eiffel Tower landmark">
+            <div class="destination-info">
+              <h3>Paris, France</h3>
+              <p>Landmarks & Culture</p>
+            </div>
+          </a>
+        </div>
+        <div class="destination-card">
+          <a href="explore.html" class="destination-link" aria-label="Explore Tokyo destination">
+            <img src="https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=1400&q=80"
+              alt="Tokyo city skyline at night">
+            <div class="destination-info">
+              <h3>Tokyo, Japan</h3>
+              <p>Cities, Lights & Nightlife</p>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -231,29 +512,60 @@
     <div class="container text-center">
       <h2>User Testimonials</h2>
       <div class="testimonial-grid text-left">
-        <div class="testimonial-card">
-          <p>"TripPilot changed how I travel!"</p>
-          <div class="mt-1"><strong>- Kaustubh Vanshiv</strong></div>
-        </div>
-        <div class="testimonial-card">
-          <p>"The budget tracker is a lifesaver."</p>
-          <div class="mt-1"><strong>- Mitali Randive</strong></div>
-        </div>
-        <div class="testimonial-card">
-          <p>"I discovered hidden gems thanks to the AI planner."</p>
-          <div class="mt-1"><strong>- Om Pratapwar</strong></div>
-        </div>
-        <div class="testimonial-card">
-          <p>"Sharing itineraries with friends has never been easier."</p>
-          <div class="mt-1"><strong>- Shreyas K.</strong></div>
-        </div>
-        <div class="testimonial-card">
-          <p>"The best travel assistant I've ever used. Quick and intuitive."</p>
-          <div class="mt-1"><strong>- Ananya S.</strong></div>
-        </div>
-        <div class="testimonial-card">
-          <p>"Saved me hours of searching across different sites."</p>
-          <div class="mt-1"><strong>- Swaraj S.</strong></div>
+        <div class="testimonial-track">
+          <div class="testimonial-group">
+            <div class="testimonial-card">
+              <p>"TripPilot changed how I travel!"</p>
+              <div class="mt-1"><strong>- Kaustubh Vanshiv</strong></div>
+            </div>
+            <div class="testimonial-card">
+              <p>"The budget tracker is a lifesaver."</p>
+              <div class="mt-1"><strong>- Mitali Randive</strong></div>
+            </div>
+            <div class="testimonial-card">
+              <p>"I discovered hidden gems thanks to the AI planner."</p>
+              <div class="mt-1"><strong>- Om Pratapwar</strong></div>
+            </div>
+            <div class="testimonial-card">
+              <p>"Sharing itineraries with friends has never been easier."</p>
+              <div class="mt-1"><strong>- Shreyas K.</strong></div>
+            </div>
+            <div class="testimonial-card">
+              <p>"The best travel assistant I've ever used. Quick and intuitive."</p>
+              <div class="mt-1"><strong>- Ananya S.</strong></div>
+            </div>
+            <div class="testimonial-card">
+              <p>"Saved me hours of searching across different sites."</p>
+              <div class="mt-1"><strong>- Swaraj S.</strong></div>
+            </div>
+          </div>
+
+          <div class="testimonial-group" aria-hidden="true">
+            <div class="testimonial-card">
+              <p>"TripPilot changed how I travel!"</p>
+              <div class="mt-1"><strong>- Kaustubh Vanshiv</strong></div>
+            </div>
+            <div class="testimonial-card">
+              <p>"The budget tracker is a lifesaver."</p>
+              <div class="mt-1"><strong>- Mitali Randive</strong></div>
+            </div>
+            <div class="testimonial-card">
+              <p>"I discovered hidden gems thanks to the AI planner."</p>
+              <div class="mt-1"><strong>- Om Pratapwar</strong></div>
+            </div>
+            <div class="testimonial-card">
+              <p>"Sharing itineraries with friends has never been easier."</p>
+              <div class="mt-1"><strong>- Shreyas K.</strong></div>
+            </div>
+            <div class="testimonial-card">
+              <p>"The best travel assistant I've ever used. Quick and intuitive."</p>
+              <div class="mt-1"><strong>- Ananya S.</strong></div>
+            </div>
+            <div class="testimonial-card">
+              <p>"Saved me hours of searching across different sites."</p>
+              <div class="mt-1"><strong>- Swaraj S.</strong></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
