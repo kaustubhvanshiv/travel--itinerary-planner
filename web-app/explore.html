@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Destinations - TripPilot</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .explore-header {
+            text-align: center;
+            padding: 4rem 20px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-bar {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .dest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .dest-card {
+            border: none;
+        }
+
+        .dest-card .card-img-top {
+            height: 250px;
+        }
+
+        .dest-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .dest-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .popularity {
+            color: #f59e0b;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand"><i class="fa-solid fa-plane-up"></i> TripPilot</a>
+            <button class="navbar-toggle" id="navbar-toggle"><i class="fa-solid fa-bars"></i></button>
+            <ul class="navbar-nav" id="navbar-nav">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="explore.html" class="nav-link">Explore</a></li>
+                <li><a href="dashboard.html" class="nav-link" id="nav-my-trips" style="display:none;">My Trips</a></li>
+                <li><a href="saved-destinations.html" class="nav-link">Saved Destinations</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li id="nav-auth-links">
+                    <a href="login.html" class="btn btn-outline" style="margin-right: 0.5rem;"
+                        id="login-button">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="explore-header">
+        <div class="container">
+            <h1 class="text-primary">Discover Your Next Adventure</h1>
+            <p class="text-muted" style="max-width: 600px; margin: 0 auto; font-size: 1.1rem;">Search thousands of
+                destinations based on your budget, travel style, and preferences.</p>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label class="form-label">Search</label>
+                <input type="text" id="destination-search" class="form-control" placeholder="Country or city name">
+            </div>
+            <div class="filter-group">
+                <label class="form-label">Continent</label>
+                <select class="form-control" id="filter-continent">
+                    <option value="all">All</option>
+                    <option value="europe">Europe</option>
+                    <option value="asia">Asia</option>
+                    <option value="americas">Americas</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="form-label">Budget Range</label>
+                <select class="form-control" id="filter-budget">
+                    <option value="all">Any</option>
+                    <option value="$">$ ($0 - $500)</option>
+                    <option value="$$">$$ ($500 - $1500)</option>
+                    <option value="$$$">$$$ ($1500+)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="form-label">Activity</label>
+                <select class="form-control" id="filter-activity">
+                    <option value="all">Any</option>
+                    <option value="culture">Culture</option>
+                    <option value="nature">Nature</option>
+                    <option value="adventure">Adventure</option>
+                    <option value="relaxation">Relaxation</option>
+                </select>
+            </div>
+            <div class="filter-group d-flex align-items-end" style="flex: 0 0 auto;">
+                <button class="btn btn-primary" id="apply-filters" style="padding: 0.8rem 2rem;"><i
+                        class="fa-solid fa-filter"></i>
+                    Apply</button>
+            </div>
+        </div>
+
+        <div class="dest-grid" id="destinations-container">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
+                <div>
+                    <h3 class="text-primary"><i class="fa-solid fa-plane-up"></i> TripPilot</h3>
+                    <p class="text-muted">Smart AI travel planning.</p>
+                </div>
+            </div>
+            <div class="text-center mt-2 pt-2"
+                style="border-top:1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                <div class="social-links"
+                    style="font-size: 1.5rem; color: var(--text-muted); display: flex; gap: 1rem;">
+                    <a href="https://twitter.com/login" target="_blank" class="text-muted"><i
+                            class="fa-brands fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/login/" target="_blank" class="text-muted"><i
+                            class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/accounts/login/" target="_blank" class="text-muted"><i
+                            class="fa-brands fa-instagram"></i></a>
+                </div>
+                <div class="text-muted">&copy; 2026 TripPilot.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/explore.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('navbar-toggle').addEventListener('click', () => {
+                const nav = document.getElementById('navbar-nav');
+                nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+                if (nav.style.display === 'flex') {
+                    nav.style.flexDirection = 'column'; nav.style.position = 'absolute'; nav.style.top = '100%'; nav.style.left = '0'; nav.style.width = '100%'; nav.style.background = 'var(--bg-card)'; nav.style.padding = '1rem';
+                }
+            });
+
+            const currentUser = JSON.parse(localStorage.getItem('tripPilotUser'));
+            if (currentUser) {
+                document.getElementById('nav-auth-links').innerHTML = '<a href="dashboard.html" class="btn btn-primary">Dashboard</a>';
+                document.getElementById('nav-my-trips').style.display = 'block';
+            }
+
+            const tempQ = localStorage.getItem('tempSearchQuery');
+            if (tempQ) {
+                document.getElementById('destination-search').value = tempQ;
+                localStorage.removeItem('tempSearchQuery');
+                // Will auto trigger search in explore.js
+            }
+
+            loadDestinations();
+
+            document.getElementById('apply-filters').addEventListener('click', filterDestinations);
+            document.getElementById('destination-search').addEventListener('input', filterDestinations);
+        });
+    </script>
+</body>
+
+</html>

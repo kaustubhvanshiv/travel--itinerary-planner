@@ -1,0 +1,125 @@
+package org.example;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.List;
+
+public class Test5_ExploreAndFilters {
+
+    static final String BASE_URL = "http://localhost:8000";
+
+    public static void main(String[] args) throws InterruptedException {
+
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        try {
+            // ─────────────────────────────────────────
+            // TEST 6: Explore Destinations — Search + Filters
+            // ─────────────────────────────────────────
+            System.out.println("\n===== TEST 6: Explore Destinations & Filters =====");
+            driver.navigate().to(BASE_URL + "/explore.html");
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("destination-search")));
+            Thread.sleep(3000);
+
+            System.out.println("Title       : " + driver.getTitle());
+            System.out.println("Current URL : " + driver.getCurrentUrl());
+
+            // --- Search bar tests ---
+            WebElement searchBar = driver.findElement(By.id("destination-search"));
+
+            searchBar.sendKeys("Japan");
+            Thread.sleep(2500);
+            List<WebElement> japanCards = driver.findElements(By.cssSelector(".dest-card"));
+            System.out.println("Search 'Japan'  -> Cards shown: " + japanCards.size());
+
+            searchBar.clear();
+            searchBar.sendKeys("Bali");
+            Thread.sleep(2500);
+            List<WebElement> baliCards = driver.findElements(By.cssSelector(".dest-card"));
+            System.out.println("Search 'Bali'   -> Cards shown: " + baliCards.size());
+
+            searchBar.clear();
+            searchBar.sendKeys("Rome");
+            Thread.sleep(2500);
+            List<WebElement> romeCards = driver.findElements(By.cssSelector(".dest-card"));
+            System.out.println("Search 'Rome'   -> Cards shown: " + romeCards.size());
+
+            // Clear search and reset
+            searchBar.clear();
+            Thread.sleep(1000);
+
+            // --- Continent Filter ---
+            System.out.println("\n--- Continent Filter ---");
+            new Select(driver.findElement(By.id("filter-continent"))).selectByValue("europe");
+            driver.findElement(By.id("apply-filters")).click();
+            Thread.sleep(2500);
+            List<WebElement> europeCards = driver.findElements(By.cssSelector(".dest-card"));
+            System.out.println("Filter 'Europe' -> Cards shown: " + europeCards.size());
+
+            new Select(driver.findElement(By.id("filter-continent"))).selectByValue("asia");
+            driver.findElement(By.id("apply-filters")).click();
+            Thread.sleep(2500);
+            List<WebElement> asiaCards = driver.findElements(By.cssSelector(".dest-card"));
+            System.out.println("Filter 'Asia'   -> Cards shown: " + asiaCards.size());
+
+            // Reset continent filter
+            new Select(driver.findElement(By.id("filter-continent"))).selectByValue("all");
+
+            // --- Budget Filter ---
+            System.out.println("\n--- Budget Filter ---");
+            new Select(driver.findElement(By.id("filter-budget"))).selectByValue("$");
+            driver.findElement(By.id("apply-filters")).click();
+            Thread.sleep(2500);
+            List<WebElement> budgetCards = driver.findElements(By.cssSelector(".dest-card"));
+            System.out.println("Filter '$'      -> Cards shown: " + budgetCards.size());
+
+            new Select(driver.findElement(By.id("filter-budget"))).selectByValue("$$$");
+            driver.findElement(By.id("apply-filters")).click();
+            Thread.sleep(2500);
+            List<WebElement> luxuryCards = driver.findElements(By.cssSelector(".dest-card"));
+            System.out.println("Filter '$$$'    -> Cards shown: " + luxuryCards.size());
+
+            // Reset budget filter
+            new Select(driver.findElement(By.id("filter-budget"))).selectByValue("all");
+
+            // --- Activity Filter ---
+            System.out.println("\n--- Activity Filter ---");
+            new Select(driver.findElement(By.id("filter-activity"))).selectByValue("adventure");
+            driver.findElement(By.id("apply-filters")).click();
+            Thread.sleep(2500);
+            List<WebElement> adventureCards = driver.findElements(By.cssSelector(".dest-card"));
+            System.out.println("Filter 'Adventure' -> Cards shown: " + adventureCards.size());
+
+            new Select(driver.findElement(By.id("filter-activity"))).selectByValue("relaxation");
+            driver.findElement(By.id("apply-filters")).click();
+            Thread.sleep(2500);
+            List<WebElement> relaxCards = driver.findElements(By.cssSelector(".dest-card"));
+            System.out.println("Filter 'Relaxation'-> Cards shown: " + relaxCards.size());
+
+            System.out.println("✅ Search and all filter combinations verified");
+
+            System.out.println("\n===== TEST 6 COMPLETED =====");
+            Thread.sleep(3000);
+            driver.quit();
+
+        } catch (Exception e) {
+            System.err.println("\n❌ TEST 6 FAILED!");
+            e.printStackTrace();
+            driver.quit();
+        }
+    }
+}

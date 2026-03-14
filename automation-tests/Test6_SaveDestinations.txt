@@ -1,0 +1,154 @@
+package org.example;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.List;
+
+public class Test6_SaveDestinations {
+
+    static final String BASE_URL = "http://localhost:8000";
+
+    public static void main(String[] args) throws InterruptedException {
+
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        try {
+            // ─────────────────────────────────────────
+            // PREREQUISITE: Register & Login
+            // ─────────────────────────────────────────
+            System.out.println("Setting up session (register + login)...");
+            driver.get(BASE_URL + "/register.html");
+            wait.until(ExpectedConditions.titleContains("Register"));
+            Thread.sleep(2000);
+
+            String testEmail = "selenium_save_" + System.currentTimeMillis() + "@trippilot.com";
+            driver.findElement(By.id("reg-name")).sendKeys("Save Tester");
+            driver.findElement(By.id("reg-email")).sendKeys(testEmail);
+            driver.findElement(By.id("reg-password")).sendKeys("Test@123!");
+            driver.findElement(By.id("reg-confirm")).sendKeys("Test@123!");
+            driver.findElement(By.id("register-form")).submit();
+            wait.until(ExpectedConditions.urlContains("login.html"));
+
+            driver.findElement(By.id("login-email")).sendKeys(testEmail);
+            driver.findElement(By.id("login-pw")).sendKeys("Test@123!");
+            driver.findElement(By.id("login-button")).click();
+            wait.until(ExpectedConditions.urlContains("dashboard.html"));
+            Thread.sleep(2000);
+            System.out.println("Session ready ✅");
+
+            // ─────────────────────────────────────────
+            // TEST: Save Destinations (Heart Button)
+            // ─────────────────────────────────────────
+            System.out.println("\n===== TEST 7: Save Destinations (Heart Button) =====");
+            driver.navigate().to(BASE_URL + "/explore.html");
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("destinations-container")));
+            Thread.sleep(3000);
+
+            System.out.println("Title       : " + driver.getTitle());
+            System.out.println("Current URL : " + driver.getCurrentUrl());
+
+            // Get all heart (save) buttons
+            List<WebElement> saveButtons = driver.findElements(By.cssSelector(".save-btn"));
+            System.out.println("Total destination cards : " + saveButtons.size());
+
+            // Click the heart button on the 1st destination (Kyoto)
+            System.out.println("Saving destination 1 (Kyoto)...");
+            saveButtons.get(0).click();
+            Thread.sleep(2500);
+
+            // Verify it turned active (solid heart class)
+            saveButtons = driver.findElements(By.cssSelector(".save-btn"));
+            String firstBtnClass = saveButtons.get(0).getAttribute("class");
+            System.out.println("Heart button class after click: " + firstBtnClass);
+            System.out.println("Destination 1 saved: " + (firstBtnClass.contains("active") ? "YES ✅" : "NO ❌"));
+
+            // Click the heart button on the 2nd destination (Santorini)
+            System.out.println("Saving destination 2 (Santorini)...");
+            saveButtons.get(1).click();
+            Thread.sleep(2500);
+
+            saveButtons = driver.findElements(By.cssSelector(".save-btn"));
+            String secondBtnClass = saveButtons.get(1).getAttribute("class");
+            System.out.println("Destination 2 saved: " + (secondBtnClass.contains("active") ? "YES ✅" : "NO ❌"));
+
+            // Verify localStorage contains the saved destinations
+            String savedJson = (String) js.executeScript("return localStorage.getItem('savedDestinations');");
+            System.out.println("localStorage savedDestinations: " + (savedJson != null && savedJson.contains("Kyoto") ? "Kyoto found ✅" : "❌ Not found"));
+            System.out.println("localStorage savedDestinations: " + (savedJson != null && savedJson.contains("Santorini") ? "Santorini found ✅" : "❌ Not found"));
+
+            // ─────────────────────────────────────────
+            // Navigate to Saved Destinations page & verify
+            // ─────────────────────────────────────────
+            System.out.println("\n--- Navigating to Saved Destinations page ---");
+            driver.navigate().to(BASE_URL + "/saved-destinations.html");
+            wait.until(ExpectedConditions.titleContains("Saved Destinations"));
+            Thread.sleep(3000);
+
+            System.out.println("Title       : " + driver.getTitle());
+            System.out.println("Current URL : " + driver.getCurrentUrl());
+
+            WebElement savedContainer = driver.findElement(By.id("saved-destinations-container"));
+            String containerText = savedContainer.getText();
+            System.out.println("Kyoto in Saved Destinations : " + (containerText.contains("Kyoto") ? "YES ✅" : "NO ❌"));
+            System.out.println("Santorini in Saved Destinations : " + (containerText.contains("Santorini") ? "YES ✅" : "NO ❌"));
+
+            List<WebElement> savedCards = driver.findElements(By.cssSelector("#saved-destinations-container .dest-card"));
+            System.out.println("Total saved cards displayed : " + savedCards.size());
+
+            // ─────────────────────────────────────────
+            // Unsave (remove heart) from Saved Destinations page
+            // ─────────────────────────────────────────
+            System.out.println("\n--- Removing one saved destination ---");
+            List<WebElement> removeBtns = driver.findElements(By.cssSelector(".save-btn"));
+            removeBtns.get(0).click(); // Remove Kyoto
+            Thread.sleep(2500);
+
+            List<WebElement> remainingCards = driver.findElements(By.cssSelector("#saved-destinations-container .dest-card"));
+            System.out.println("Cards after removing 1 : " + remainingCards.size());
+            System.out.println("✅ Save/Unsave destinations verified");
+
+            // ─────────────────────────────────────────
+            // TEST: Plan Trip Here button from Explore page
+            // ─────────────────────────────────────────
+            System.out.println("\n--- Plan Trip Here button test ---");
+            driver.navigate().to(BASE_URL + "/explore.html");
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("destinations-container")));
+            Thread.sleep(3000);
+
+            // Click "Plan Trip Here" on the first card
+            WebElement planTripBtn = driver.findElement(By.cssSelector(".dest-card .btn-outline"));
+            System.out.println("Clicking 'Plan Trip Here' button...");
+            planTripBtn.click();
+            Thread.sleep(3000);
+
+            // Should redirect to create-trip.html with destination pre-filled
+            System.out.println("After 'Plan Trip Here' URL : " + driver.getCurrentUrl());
+            String preFilledDest = driver.findElement(By.id("trip-destination")).getAttribute("value");
+            System.out.println("Pre-filled Destination : " + preFilledDest);
+            System.out.println("Destination pre-filled: " + (!preFilledDest.isEmpty() ? "YES ✅" : "NO ❌"));
+
+            System.out.println("\n===== TEST 7 COMPLETED =====");
+            Thread.sleep(3000);
+            driver.quit();
+
+        } catch (Exception e) {
+            System.err.println("\n❌ TEST 7 FAILED!");
+            e.printStackTrace();
+            driver.quit();
+        }
+    }
+}

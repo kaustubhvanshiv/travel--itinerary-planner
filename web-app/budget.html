@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker - TripPilot</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .budget-chart-container {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .budget-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 15px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-right-color: var(--secondary-color);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .expenses-list {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .expense-item:last-child {
+            border-bottom: none;
+        }
+
+        .expense-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .bg-flight {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .bg-hotel {
+            background: #fef08a;
+            color: #a16207;
+        }
+
+        .bg-food {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        .bg-activity {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .bg-transport {
+            background: #f3e8ff;
+            color: #7e22ce;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container" style="padding: 0 1rem; width: 100%;">
+            <a href="index.html" class="navbar-brand"><i class="fa-solid fa-plane-up"></i> TripPilot</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-menu">
+                <a href="dashboard.html" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="my-trips.html" class="sidebar-link"><i class="fa-solid fa-plane"></i> My Trips</a>
+                <a href="saved-destinations.html" class="sidebar-link"><i class="fa-solid fa-heart"></i> Saved
+                    Destinations</a>
+                <a href="budget.html" class="sidebar-link active"><i class="fa-solid fa-wallet"></i> Budget Tracker</a>
+                <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i> Profile Settings</a>
+                <a href="#" class="sidebar-link text-danger" id="logout-btn"
+                    style="color: #ef4444; margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h2 class="mb-2">Budget Tracker</h2>
+
+            <div class="form-group mb-3 d-flex gap-1" style="max-width: 400px; gap: 1rem;">
+                <select class="form-control" id="trip-selector">
+                    <option value="">Select a Trip</option>
+                    <option value="current" selected>Summer in Paris (Active)</option>
+                </select>
+            </div>
+
+            <div class="budget-chart-container">
+                <div class="budget-circle">
+                    <p class="text-muted" style="margin:0; font-size:0.9rem;">Total Spent</p>
+                    <h2 style="margin:0; color:var(--text-main);" id="total-spent">$1,240</h2>
+                    <p class="text-muted" style="margin:0; font-size:0.8rem;">of $2,500 budget</p>
+                </div>
+                <div class="d-flex justify-content-center" style="gap: 2rem; flex-wrap: wrap;">
+                    <div><span style="color:#0284c7;">●</span> Flights: $450</div>
+                    <div><span style="color:#a16207;">●</span> Hotels: $500</div>
+                    <div><span style="color:#be185d;">●</span> Food: $140</div>
+                    <div><span style="color:#15803d;">●</span> Activities: $100</div>
+                    <div><span style="color:#7e22ce;">●</span> Transport: $50</div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <h3>Recent Expenses</h3>
+                <button class="btn btn-primary btn-sm" onclick="alert('Add Expense Modal opened')"><i
+                        class="fa-solid fa-plus"></i> Add Expense</button>
+            </div>
+
+            <div class="expenses-list">
+                <div class="expense-item">
+                    <div class="d-flex align-items-center" style="gap: 1rem;">
+                        <div class="expense-icon bg-flight"><i class="fa-solid fa-plane"></i></div>
+                        <div>
+                            <h4 style="margin:0;">Roundtrip Airfare</h4>
+                            <p style="margin:0; font-size:0.85rem;" class="text-muted">Flights • June 15</p>
+                        </div>
+                    </div>
+                    <h3 style="margin:0;">$450</h3>
+                </div>
+                <div class="expense-item">
+                    <div class="d-flex align-items-center" style="gap: 1rem;">
+                        <div class="expense-icon bg-hotel"><i class="fa-solid fa-bed"></i></div>
+                        <div>
+                            <h4 style="margin:0;">Le Meurice Hotel (3 Nights)</h4>
+                            <p style="margin:0; font-size:0.85rem;" class="text-muted">Hotels • June 15</p>
+                        </div>
+                    </div>
+                    <h3 style="margin:0;">$500</h3>
+                </div>
+                <div class="expense-item">
+                    <div class="d-flex align-items-center" style="gap: 1rem;">
+                        <div class="expense-icon bg-food"><i class="fa-solid fa-utensils"></i></div>
+                        <div>
+                            <h4 style="margin:0;">Dinner at Le Relais</h4>
+                            <p style="margin:0; font-size:0.85rem;" class="text-muted">Food • June 16</p>
+                        </div>
+                    </div>
+                    <h3 style="margin:0;">$85</h3>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            requireAuth();
+            document.getElementById('logout-btn').addEventListener('click', (e) => { e.preventDefault(); logoutUser(); });
+        });
+    </script>
+</body>
+
+</html>

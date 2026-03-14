@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TripPilot</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: rgba(0, 119, 182, 0.1);
+            color: var(--primary-color);
+        }
+
+        .stat-info h3 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .stat-info p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container" style="padding: 0 1rem; width: 100%;">
+            <a href="index.html" class="navbar-brand"><i class="fa-solid fa-plane-up"></i> TripPilot</a>
+            <div id="user-menu" style="display: flex; gap: 1rem; align-items: center;">
+                <span id="user-name-display" class="font-weight-bold"></span>
+                <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" alt="Avatar"
+                    id="user-avatar" style="width: 40px; height: 40px; border-radius: 50%;">
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-menu">
+                <a href="dashboard.html" class="sidebar-link active"><i class="fa-solid fa-chart-line"></i>
+                    Dashboard</a>
+                <a href="my-trips.html" class="sidebar-link"><i class="fa-solid fa-plane"></i> My Trips</a>
+                <a href="saved-destinations.html" class="sidebar-link"><i class="fa-solid fa-heart"></i> Saved
+                    Destinations</a>
+                <a href="budget.html" class="sidebar-link"><i class="fa-solid fa-wallet"></i> Budget Tracker</a>
+                <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i> Profile Settings</a>
+                <a href="#" class="sidebar-link text-danger" id="logout-btn"
+                    style="color: #ef4444; margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="section-header">
+                <h2>Dashboard Overview</h2>
+                <a href="create-trip.html" class="btn btn-primary" id="create-trip-btn"><i class="fa-solid fa-plus"></i>
+                    Create New Trip</a>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <div class="stat-info">
+                        <h3 id="stat-upcoming">0</h3>
+                        <p>Upcoming Trips</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-suitcase"></i></div>
+                    <div class="stat-info">
+                        <h3 id="stat-past">0</h3>
+                        <p>Past Trips</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-heart"></i></div>
+                    <div class="stat-info">
+                        <h3 id="stat-saved">0</h3>
+                        <p>Saved Destinations</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-coins"></i></div>
+                    <div class="stat-info">
+                        <h3>$0</h3>
+                        <p>Avg. Trip Cost</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header mt-2">
+                <h3>Upcoming Trips</h3>
+                <a href="my-trips.html" class="btn btn-outline btn-sm">View All</a>
+            </div>
+
+            <div id="upcoming-trips-container" class="dashboard-grid">
+                <!-- Dashboard JS will populate this -->
+                <p class="text-muted w-100">No upcoming trips found. Start planning today!</p>
+            </div>
+
+            <div class="section-header mt-3">
+                <h3>Recent Searches</h3>
+                <a href="explore.html" class="btn btn-outline btn-sm">Explore Destinations</a>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=80"
+                        alt="Rome" class="card-img-top">
+                    <div class="card-body">
+                        <h4 class="card-title">Rome, Italy</h4>
+                        <p class="card-text">Explored 2 days ago</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80"
+                        alt="Kyoto" class="card-img-top">
+                    <div class="card-body">
+                        <h4 class="card-title">Kyoto, Japan</h4>
+                        <p class="card-text">Explored 5 days ago</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            requireAuth();
+            const user = getCurrentUser();
+            if (user) {
+                document.getElementById('user-name-display').textContent = `Hi, ${user.name.split(' ')[0]}`;
+                document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=0D8ABC&color=fff`;
+            }
+
+            document.getElementById('logout-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                logoutUser();
+            });
+
+            loadDashboardData();
+        });
+    </script>
+</body>
+
+</html>

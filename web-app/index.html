@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TripPilot - AI Travel Itinerary Planner</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .hero {
+      background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=2021&q=80') center/cover;
+      color: white;
+      padding: 8rem 0 6rem;
+      text-align: center;
+    }
+
+    .search-bar-hero {
+      background: var(--bg-card);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      display: flex;
+      gap: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .search-input {
+      flex: 1;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .search-input label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .search-input input {
+      border: none;
+      background: transparent;
+      font-size: 1rem;
+      outline: none;
+      color: var(--text-main);
+    }
+
+    .steps-grid,
+    .destinations-grid,
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .step-card {
+      text-align: center;
+      padding: 2rem;
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--border-color);
+    }
+
+    .step-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(0, 119, 182, 0.1);
+      color: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 1.5rem;
+    }
+
+    .destination-card {
+      position: relative;
+      height: 350px;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
+
+    .destination-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .destination-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .destination-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 2rem;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+      color: white;
+    }
+
+    .testimonials {
+      background: #03045E;
+      color: white;
+    }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand"><i class="fa-solid fa-plane-up"></i> TripPilot</a>
+      <button class="navbar-toggle" id="navbar-toggle"><i class="fa-solid fa-bars"></i></button>
+      <ul class="navbar-nav" id="navbar-nav">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="explore.html" class="nav-link">Explore</a></li>
+        <li><a href="saved-destinations.html" class="nav-link">Saved Destinations</a></li>
+        <li><a href="dashboard.html" class="nav-link" id="nav-my-trips" style="display:none;">My Trips</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li id="nav-auth-links">
+          <a href="login.html" class="btn btn-outline" style="margin-right: 0.5rem;" id="login-button">Login</a>
+          <a href="register.html" class="btn btn-primary">Register</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem; color: white;">Plan smarter trips with TripPilot</h1>
+      <p style="font-size: 1.25rem; margin-bottom: 2.5rem; color: rgba(255,255,255,0.9);">AI-powered itineraries,
+        seamless bookings, and effortless travel management.</p>
+
+      <div class="search-bar-hero">
+        <div class="search-input">
+          <label>Where to?</label>
+          <input type="text" id="destination-search" placeholder="City, country, or region">
+        </div>
+        <div style="width: 1px; background: var(--border-color); margin: 0 0.5rem;"></div>
+        <div class="search-input">
+          <label>Dates</label>
+          <input type="text" placeholder="Add dates" onfocus="(this.type='date')" onblur="(this.type='text')">
+        </div>
+        <button class="btn btn-accent" id="hero-search-btn" style="padding: 0 2rem;"><i
+            class="fa-solid fa-search"></i></button>
+      </div>
+
+      <div class="mt-2">
+        <a href="create-trip.html" class="btn btn-primary btn-lg" id="create-trip-btn" style="margin-top: 1.5rem;">Start
+          Planning Now</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="py-5">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="text-primary">How It Works</h2>
+        <p class="text-muted">Your dream vacation is just three steps away.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+          <h3>1. Choose Destination</h3>
+          <p class="text-muted">Tell us where you want to go.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <h3>2. Generate Itinerary</h3>
+          <p class="text-muted">Our AI engine creates a daily schedule.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon"><i class="fa-solid fa-suitcase-rolling"></i></div>
+          <h3>3. Pack & Go</h3>
+          <p class="text-muted">Manage budget and enjoy your trip.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5" style="background: var(--bg-card);">
+    <div class="container">
+      <div class="text-center">
+        <h2>Featured Destinations</h2>
+      </div>
+      <div class="destinations-grid">
+        <div class="destination-card">
+          <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80"
+            alt="Dubai">
+          <div class="destination-info">
+            <h3>Dubai, UAE</h3>
+            <p>Luxury & Architecture</p>
+          </div>
+        </div>
+        <div class="destination-card">
+          <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80"
+            alt="Bali" class="card-img-top">
+          <div class="destination-info">
+            <h3>Bali, Indonesia</h3>
+            <p>Nature & Relaxation</p>
+          </div>
+        </div>
+        <div class="destination-card">
+          <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=800&q=80"
+            alt="Paris">
+          <div class="destination-info">
+            <h3>Paris, France</h3>
+            <p>Romance & Culture</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 testimonials">
+    <div class="container text-center">
+      <h2>User Testimonials</h2>
+      <div class="testimonial-grid text-left">
+        <div class="testimonial-card">
+          <p>"TripPilot changed how I travel!"</p>
+          <div class="mt-1"><strong>- Kaustubh Vanshiv</strong></div>
+        </div>
+        <div class="testimonial-card">
+          <p>"The budget tracker is a lifesaver."</p>
+          <div class="mt-1"><strong>- Mitali Randive</strong></div>
+        </div>
+        <div class="testimonial-card">
+          <p>"I discovered hidden gems thanks to the AI planner."</p>
+          <div class="mt-1"><strong>- Om Pratapwar</strong></div>
+        </div>
+        <div class="testimonial-card">
+          <p>"Sharing itineraries with friends has never been easier."</p>
+          <div class="mt-1"><strong>- Shreyas K.</strong></div>
+        </div>
+        <div class="testimonial-card">
+          <p>"The best travel assistant I've ever used. Quick and intuitive."</p>
+          <div class="mt-1"><strong>- Ananya S.</strong></div>
+        </div>
+        <div class="testimonial-card">
+          <p>"Saved me hours of searching across different sites."</p>
+          <div class="mt-1"><strong>- Swaraj S.</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
+        <div>
+          <h3 class="text-primary"><i class="fa-solid fa-plane-up"></i> TripPilot</h3>
+          <p class="text-muted">Smart AI travel planning.</p>
+        </div>
+      </div>
+      <div class="text-center mt-2 pt-2"
+        style="border-top:1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        <div class="social-links" style="font-size: 1.5rem; color: var(--text-muted); display: flex; gap: 1rem;">
+          <a href="https://twitter.com/login" target="_blank" class="text-muted"><i
+              class="fa-brands fa-twitter"></i></a>
+          <a href="https://www.facebook.com/login/" target="_blank" class="text-muted"><i
+              class="fa-brands fa-facebook"></i></a>
+          <a href="https://www.instagram.com/accounts/login/" target="_blank" class="text-muted"><i
+              class="fa-brands fa-instagram"></i></a>
+        </div>
+        <div class="text-muted">&copy; 2026 TripPilot.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script>
+    document.getElementById('navbar-toggle').addEventListener('click', () => {
+      const nav = document.getElementById('navbar-nav');
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+      if (nav.style.display === 'flex') {
+        nav.style.flexDirection = 'column'; nav.style.position = 'absolute'; nav.style.top = '100%'; nav.style.left = '0'; nav.style.width = '100%'; nav.style.background = 'var(--bg-card)'; nav.style.padding = '1rem';
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentUser = JSON.parse(localStorage.getItem('tripPilotUser'));
+      if (currentUser) {
+        document.getElementById('nav-auth-links').innerHTML = '<a href="dashboard.html" class="btn btn-primary">Dashboard</a>';
+        document.getElementById('nav-my-trips').style.display = 'block';
+      }
+      document.getElementById('hero-search-btn').addEventListener('click', () => {
+        const dest = document.getElementById('destination-search').value;
+        if (dest) { localStorage.setItem('tempSearchQuery', dest); window.location.href = 'explore.html'; }
+      });
+    });
+  </script>
+</body>
+
+</html>

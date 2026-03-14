@@ -1,0 +1,111 @@
+package org.example;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+public class Test2_RegisterAndLogin {
+
+    static final String BASE_URL = "http://localhost:8000";
+
+    public static void main(String[] args) throws InterruptedException {
+
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+
+        WebDriver driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        try {
+            // ─────────────────────────────────────────
+            // TEST 2: Register
+            // ─────────────────────────────────────────
+            System.out.println("\n===== TEST 2: Register =====");
+            driver.get(BASE_URL + "/register.html");
+            wait.until(ExpectedConditions.titleContains("Register"));
+            Thread.sleep(3000);
+
+            System.out.println("Title       : " + driver.getTitle());
+            System.out.println("Current URL : " + driver.getCurrentUrl());
+            System.out.println("Form Loaded : " + driver.findElement(By.id("register-form")).isDisplayed());
+
+            driver.findElement(By.id("reg-name")).sendKeys("Selenium User");
+            Thread.sleep(1000);
+            String testEmail = "selenium_" + System.currentTimeMillis() + "@trippilot.com";
+            driver.findElement(By.id("reg-email")).sendKeys(testEmail);
+            Thread.sleep(1000);
+            driver.findElement(By.id("reg-password")).sendKeys("Test@123!");
+            Thread.sleep(1000);
+            driver.findElement(By.id("reg-confirm")).sendKeys("Test@123!");
+            Thread.sleep(1000);
+
+            System.out.println("Name  : " + driver.findElement(By.id("reg-name")).getAttribute("value"));
+            System.out.println("Email : " + driver.findElement(By.id("reg-email")).getAttribute("value"));
+
+            driver.findElement(By.id("register-form")).submit();
+
+            // Wait for success alert box
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("alert-box")));
+            System.out.println("Alert message: " + driver.findElement(By.id("alert-box")).getText());
+
+            // Wait to redirect to login
+            wait.until(ExpectedConditions.urlContains("login.html"));
+            Thread.sleep(3000);
+            System.out.println("After Register URL : " + driver.getCurrentUrl());
+            System.out.println("✅ Registered & redirected to Login");
+
+
+            // ─────────────────────────────────────────
+            // TEST 3: Login
+            // ─────────────────────────────────────────
+            System.out.println("\n===== TEST 3: Login =====");
+            driver.navigate().to(BASE_URL + "/login.html");
+            wait.until(ExpectedConditions.titleContains("Login"));
+            Thread.sleep(3000);
+
+            System.out.println("Title       : " + driver.getTitle());
+            System.out.println("Current URL : " + driver.getCurrentUrl());
+
+            WebElement loginEmail    = driver.findElement(By.id("login-email"));
+            WebElement loginPassword = driver.findElement(By.id("login-pw"));
+            WebElement loginBtn      = driver.findElement(By.id("login-button"));
+
+            loginEmail.sendKeys(testEmail);
+            Thread.sleep(1000);
+            loginPassword.sendKeys("Test@123!");
+            Thread.sleep(1000);
+
+            System.out.println("Email : " + loginEmail.getAttribute("value"));
+            System.out.println("Btn   : " + loginBtn.getText());
+
+            loginBtn.click();
+
+            // Wait for redirect to dashboard
+            wait.until(ExpectedConditions.urlContains("dashboard.html"));
+            Thread.sleep(3000);
+
+            String sessionUser = (String) js.executeScript("return localStorage.getItem('tripPilotUser');");
+            System.out.println("After Login URL : " + driver.getCurrentUrl());
+            System.out.println("User session stored : " + (sessionUser != null ? "YES ✅" : "NO ❌"));
+            System.out.println("✅ Logged in & redirected to Dashboard");
+
+            System.out.println("\n===== TESTS 2 & 3 COMPLETED =====");
+            Thread.sleep(3000);
+            driver.quit();
+
+        } catch (Exception e) {
+            System.err.println("\n❌ TEST SUITE FAILED!");
+            e.printStackTrace();
+            driver.quit();
+        }
+    }
+}

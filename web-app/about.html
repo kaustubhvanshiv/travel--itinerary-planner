@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - TripPilot</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .about-hero {
+            background: linear-gradient(rgba(0, 119, 182, 0.8), rgba(0, 119, 182, 0.8)), url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .about-section {
+            padding: 5rem 0;
+        }
+
+        .founder-card {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            margin-top: 3rem;
+        }
+
+        .founder-img {
+            width: 300px;
+            height: 300px;
+            border-radius: var(--border-radius);
+            object-fit: cover;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .founder-info {
+            flex: 1;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .founder-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem;
+            }
+
+            .founder-img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand"><i class="fa-solid fa-plane-up"></i> TripPilot</a>
+            <button class="navbar-toggle" id="navbar-toggle"><i class="fa-solid fa-bars"></i></button>
+            <ul class="navbar-nav" id="navbar-nav">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="explore.html" class="nav-link">Explore</a></li>
+                <li><a href="saved-destinations.html" class="nav-link">Saved Destinations</a></li>
+                <li><a href="dashboard.html" class="nav-link" id="nav-my-trips" style="display:none;">My Trips</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                <li id="nav-auth-links">
+                    <a href="login.html" class="btn btn-outline" style="margin-right: 0.5rem;"
+                        id="login-button">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="about-hero">
+        <div class="container">
+            <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Our Mission</h1>
+            <p style="font-size: 1.25rem; max-width: 800px; margin: 0 auto; opacity: 0.9;">
+                Making world-class travel planning accessible to everyone through the power of Artificial Intelligence.
+            </p>
+        </div>
+    </header>
+
+    <section class="about-section">
+        <div class="container">
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <h2 class="text-primary mb-1">What is TripPilot?</h2>
+                <p class="text-muted" style="font-size: 1.1rem; line-height: 1.8;">
+                    TripPilot is an intelligent travel companion designed to take the stress out of vacation planning.
+                    In a world where we spend more time researching trips than actually enjoying them, we built a
+                    solution that uses advanced AI to curate personalized itineraries, manage budgets, and discover
+                    hidden gems—all in a matter of seconds.
+                </p>
+            </div>
+
+            <div class="founder-card">
+                <img src="images/founder.jpeg" alt="Founder" class="founder-img">
+                <div class="founder-info">
+                    <h4 class="text-primary"
+                        style="text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Meet the Founder
+                    </h4>
+                    <h2 class="mb-1">Kaustubh Vanshiv</h2>
+                    <p class="text-muted" style="font-size: 1.05rem; margin-bottom: 1.5rem;">
+                        Technology enthusiast and avid traveler who believes that the journey should be as seamless as
+                        the destination. Dedicated to bridging the gap between complex travel logistics and effortless
+                        exploration.
+                    </p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="https://www.linkedin.com/in/kaustubh-vanshiv" target="_blank" class="text-primary"><i
+                                class="fa-brands fa-linkedin fa-xl"></i></a>
+                        <a href="https://x.com/kaustubhv22" target="_blank" class="text-primary"><i
+                                class="fa-brands fa-twitter fa-xl"></i></a>
+                        <a href="https://github.com/kaustubhvanshiv" target="_blank" class="text-primary"><i
+                                class="fa-brands fa-github fa-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 5rem;">
+                <h2 class="text-center mb-1">Our Engineering Team</h2>
+                <p class="text-center text-muted mb-3" style="max-width: 700px; margin: 0 auto;">The brilliant minds
+                    behind our AI algorithms and seamless interface.</p>
+                <div class="features-grid">
+                    <div class="feature-item" style="text-align: left;">
+                        <img src="images/dev1.jpeg" alt="Lead AI Engineer"
+                            style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 2px solid var(--primary-color);">
+                        <h3>Mitali Randive - Lead AI Engineer</h3>
+                        <p class="text-muted" style="margin-bottom: 1.5rem;">Specializing in predictive travel modeling
+                            and natural language itinerary
+                            generation.</p>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <a href="#" class="text-primary"><i class="fa-brands fa-linkedin fa-lg"></i></a>
+                            <a href="#" class="text-primary"><i class="fa-brands fa-twitter fa-lg"></i></a>
+                            <a href="#" class="text-primary"><i class="fa-brands fa-github fa-lg"></i></a>
+                        </div>
+                    </div>
+                    <div class="feature-item" style="text-align: left;">
+                        <img src="images/dev2.jpeg" alt="Lead Full-Stack Developer"
+                            style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 2px solid var(--primary-color);">
+                        <h3>Om Pratapwar - Lead Full-Stack Developer</h3>
+                        <p class="text-muted" style="margin-bottom: 1.5rem;">Architecting the high-performance core and
+                            ensuring a smooth user
+                            experience across all devices.</p>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <a href="#" class="text-primary"><i class="fa-brands fa-linkedin fa-lg"></i></a>
+                            <a href="#" class="text-primary"><i class="fa-brands fa-twitter fa-lg"></i></a>
+                            <a href="#" class="text-primary"><i class="fa-brands fa-github fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section" style="background: var(--bg-card);">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="text-center mb-1">Why TripPilot Exists</h2>
+                <p class="text-center text-muted" style="max-width: 700px; margin: 0 auto;">
+                    We believe travel is the best way to open minds and create lasting memories. TripPilot exists to
+                    remove the barriers of planning fatigue, information overload, and budgeting anxiety.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h3>AI Generation</h3>
+                    <p class="text-muted">Personalized daily schedules generated based on your style and budget.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-wallet"></i></div>
+                    <h3>Smart Budgeting</h3>
+                    <p class="text-muted">Real-time cost estimations to keep your finances in check while abroad.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-heart"></i></div>
+                    <h3>Saved Destinations</h3>
+                    <p class="text-muted">Curate your own travel bucket list and access it anytime, anywhere.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <h3>Seamless Experience</h3>
+                    <p class="text-muted">A fully responsive interface that works perfectly on your phone while on the
+                        move.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: 1fr; text-align: center;">
+                <div>
+                    <h3 class="text-primary"><i class="fa-solid fa-plane-up"></i> TripPilot</h3>
+                    <p class="text-muted">Smart AI travel planning.</p>
+                </div>
+            </div>
+            <div class="text-center mt-2 pt-2"
+                style="border-top:1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                <div class="social-links"
+                    style="font-size: 1.5rem; color: var(--text-muted); display: flex; gap: 1rem;">
+                    <a href="https://twitter.com/login" target="_blank" class="text-muted"><i
+                            class="fa-brands fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/login/" target="_blank" class="text-muted"><i
+                            class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/accounts/login/" target="_blank" class="text-muted"><i
+                            class="fa-brands fa-instagram"></i></a>
+                </div>
+                <div class="text-muted">&copy; 2026 TripPilot.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = getCurrentUser();
+            if (user) {
+                document.getElementById('nav-my-trips').style.display = 'block';
+                document.getElementById('nav-auth-links').innerHTML = `
+                    <a href="dashboard.html" class="btn btn-primary">Dashboard</a>
+                `;
+            }
+        });
+    </script>
+</body>
+
+</html>

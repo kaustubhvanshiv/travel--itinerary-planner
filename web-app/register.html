@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - TripPilot</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand"><i class="fa-solid fa-plane-up"></i> TripPilot</a>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2 class="text-center text-primary mb-1">Create an Account</h2>
+            <p class="text-center text-muted mb-2">Join TripPilot to start planning.</p>
+
+            <div id="alert-box" class="alert"></div>
+
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="reg-name" class="form-control" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="reg-email" class="form-control" placeholder="john@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="reg-password" class="form-control" placeholder="••••••••" required>
+                        <i class="fa-solid fa-eye" id="toggle-pw"
+                            style="position: absolute; right: 15px; top: 15px; cursor: pointer; color: var(--text-muted)"></i>
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" id="reg-confirm" class="form-control" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+
+            <p class="text-center mt-2">Already have an account? <a href="login.html"
+                    class="text-primary font-weight-bold">Login here</a></p>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.getElementById('toggle-pw').addEventListener('click', function () {
+            const pwField = document.getElementById('reg-password');
+            if (pwField.type === 'password') {
+                pwField.type = 'text';
+                this.classList.remove('fa-eye');
+                this.classList.add('fa-eye-slash');
+            } else {
+                pwField.type = 'password';
+                this.classList.remove('fa-eye-slash');
+                this.classList.add('fa-eye');
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-password').value;
+            const confirm = document.getElementById('reg-confirm').value;
+            const alertBox = document.getElementById('alert-box');
+
+            if (pass !== confirm) {
+                alertBox.textContent = 'Passwords do not match!';
+                alertBox.className = 'alert alert-error';
+                alertBox.style.display = 'block';
+                return;
+            }
+
+            if (pass.length < 6) {
+                alertBox.textContent = 'Password must be at least 6 characters.';
+                alertBox.className = 'alert alert-error';
+                alertBox.style.display = 'block';
+                return;
+            }
+
+            const res = registerUser(name, email, pass);
+            if (res.success) {
+                alertBox.textContent = res.message + " Redirecting to login...";
+                alertBox.className = 'alert alert-success';
+                alertBox.style.display = 'block';
+                setTimeout(() => window.location.href = 'login.html', 1500);
+            } else {
+                alertBox.textContent = res.message;
+                alertBox.className = 'alert alert-error';
+                alertBox.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

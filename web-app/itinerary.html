@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Itinerary - TripPilot</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .itinerary-header {
+            background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;
+            color: white;
+            padding: 4rem 0;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: 2rem;
+        }
+
+        .itinerary-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .day-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .day-header {
+            background: rgba(0, 119, 182, 0.05);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .day-header h3 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .activity-list {
+            padding: 0 1.5rem;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-time {
+            width: 80px;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-details h4 {
+            margin: 0 0 0.25rem 0;
+        }
+
+        .activity-details p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .budget-tag {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container" style="padding: 0 1rem; width: 100%;">
+            <a href="index.html" class="navbar-brand"><i class="fa-solid fa-plane-up"></i> TripPilot</a>
+            <div id="nav-actions">
+                <!-- populated by JS -->
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-2 mb-3">
+        <div id="itinerary-content">
+            <div class="text-center py-5">
+                <i class="fa-solid fa-circle-notch fa-spin text-primary" style="font-size: 3rem;"></i>
+                <h3 class="mt-1">Loading Itinerary...</h3>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container text-center text-muted">
+            &copy; 2023 TripPilot Itinerary Manager.
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/planner.js"></script>
+    <script>
+        function getActivityIcon(type) {
+            const icons = {
+                'transport': 'fa-plane',
+                'hotel': 'fa-bed',
+                'explore': 'fa-map',
+                'food': 'fa-utensils'
+            };
+            return icons[type] || 'fa-location-dot';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup nav
+            const user = getCurrentUser();
+            if (user) {
+                document.getElementById('nav-actions').innerHTML = `<a href="dashboard.html" class="btn btn-outline btn-sm">Back to Dashboard</a>`;
+            } else {
+                document.getElementById('nav-actions').innerHTML = `<a href="index.html" class="btn btn-outline btn-sm">Home</a>`;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const tripId = urlParams.get('id');
+            const content = document.getElementById('itinerary-content');
+
+            if (!tripId) {
+                content.innerHTML = `<div class="alert alert-error">No trip ID provided.</div><a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>`;
+                return;
+            }
+
+            const trip = getTripById(tripId);
+
+            if (!trip) {
+                content.innerHTML = `<div class="alert alert-error">Trip not found.</div><a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>`;
+                return;
+            }
+
+            // Check access - only allow if logged in and owns it, or if it's "shared" (we'll just let anyone view it to act as a public link)
+            // Render
+            const startDate = new Date(trip.startDate).toLocaleDateString();
+            const endDate = new Date(trip.endDate).toLocaleDateString();
+
+            let html = `
+        <div class="itinerary-header text-center" style="background: linear-gradient(rgba(0, 119, 182, 0.8), rgba(3, 4, 94, 0.8)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;">
+          <div class="container">
+            <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem; text-shadow: 0 4px 12px rgba(0,0,0,0.3);"><i class="fa-solid fa-location-dot"></i> ${trip.tripName}</h1>
+            <h3 style="font-weight: 400; color: rgba(255,255,255,0.9);">${trip.destination} • ${startDate} - ${endDate} • ${trip.travelers} Traveler(s)</h3>
+            <div class="itinerary-actions justify-content-center">
+              <button class="btn btn-primary" onclick="alert('PDF Export downloaded!')"><i class="fa-solid fa-file-pdf"></i> Export PDF</button>
+              <button class="btn btn-secondary" onclick="alert('Link copied to clipboard!')" style="color:var(--text-main);"><i class="fa-solid fa-share-nodes"></i> Share Link</button>
+              ${user && user.id === trip.userId ? '<button class="btn btn-outline" style="border-color:white; color:white;" onclick="alert(\'Edit mode activated!\')"><i class="fa-solid fa-pen"></i> Edit Itinerary</button>' : ''}
+            </div>
+          </div>
+        </div>
+      `;
+
+            if (trip.itinerary && trip.itinerary.length > 0) {
+                trip.itinerary.forEach(day => {
+                    html += `
+            <div class="day-card">
+              <div class="day-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display==='none'?'block':'none'">
+                <h3>Day ${day.dayNumber} - ${new Date(day.date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</h3>
+                <i class="fa-solid fa-chevron-down text-muted"></i>
+              </div>
+              <div class="activity-list">
+          `;
+
+                    day.activities.forEach(act => {
+                        html += `
+              <div class="activity-item">
+                <div class="activity-time">${act.time}</div>
+                <div class="activity-icon"><i class="fa-solid ${getActivityIcon(act.type)}"></i></div>
+                <div class="activity-details">
+                  <h4>${act.title}</h4>
+                  <p>${act.description}</p>
+                  ${act.cost > 0 ? `<div class="budget-tag"><i class="fa-solid fa-money-bill"></i> Est. $${act.cost}</div>` : ''}
+                </div>
+              </div>
+            `;
+                    });
+
+                    html += `
+              </div>
+            </div>
+          `;
+                });
+            } else {
+                html += `<div class="alert alert-error">No daily plan generated yet.</div>`;
+            }
+
+            content.innerHTML = html;
+        });
+    </script>
+</body>
+
+</html>

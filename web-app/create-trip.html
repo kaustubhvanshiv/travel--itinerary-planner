@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan a Trip - TripPilot</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .planner-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container" style="padding: 0 1rem; width: 100%;">
+            <a href="index.html" class="navbar-brand"><i class="fa-solid fa-plane-up"></i> TripPilot</a>
+            <div id="user-menu" style="display: flex; gap: 1rem; align-items: center;">
+                <span id="user-name-display" class="font-weight-bold"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-menu">
+                <a href="dashboard.html" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="my-trips.html" class="sidebar-link active"><i class="fa-solid fa-plane"></i> My Trips</a>
+                <a href="saved-destinations.html" class="sidebar-link"><i class="fa-solid fa-heart"></i> Saved
+                    Destinations</a>
+                <a href="budget.html" class="sidebar-link"><i class="fa-solid fa-wallet"></i> Budget Tracker</a>
+                <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i> Profile Settings</a>
+                <a href="#" class="sidebar-link text-danger" id="logout-btn"
+                    style="color: #ef4444; margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="planner-card">
+                <h2 class="text-primary mb-1"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Trip Planner</h2>
+                <p class="text-muted mb-3">Fill in the details below and let our AI generate the perfect itinerary for
+                    you.</p>
+
+                <form id="create-trip-form">
+                    <div class="form-group">
+                        <label class="form-label">Trip Name</label>
+                        <input type="text" id="trip-name" class="form-control" placeholder="e.g. Summer in Paris"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Destination</label>
+                        <input type="text" id="trip-destination" class="form-control"
+                            placeholder="Search city or country" required autocomplete="off">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Start Date</label>
+                            <input type="date" id="trip-start" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">End Date</label>
+                            <input type="date" id="trip-end" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Budget Estimation ($)</label>
+                            <input type="number" id="trip-budget" class="form-control" placeholder="e.g. 2500" min="100"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Number of Travelers</label>
+                            <input type="number" id="trip-travelers" class="form-control" placeholder="e.g. 2" min="1"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Travel Style</label>
+                        <select id="trip-style" class="form-control" required>
+                            <option value="budget">Budget (Hostels, street food, free sights)</option>
+                            <option value="balanced" selected>Balanced (Mid-range hotels, mixed dining)</option>
+                            <option value="luxury">Luxury (5-star hotels, fine dining, private tours)</option>
+                            <option value="adventure">Adventure (Outdoors, hiking, extreme sports)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg mt-2" id="generate-itinerary">
+                        <i class="fa-solid fa-bolt"></i> Generate Itinerary
+                    </button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.9); z-index:9999; flex-direction:column; justify-content:center; align-items:center;">
+        <i class="fa-solid fa-plane-up fa-bounce text-primary" style="font-size: 4rem; margin-bottom: 1.5rem;"></i>
+        <h3 class="text-primary">AI is crafting your perfect trip...</h3>
+        <p class="text-muted">Analyzing destinations, activities, and optimal routes.</p>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/planner.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            requireAuth();
+            const user = getCurrentUser();
+            if (user) {
+                document.getElementById('user-name-display').textContent = `Hi, ${user.name.split(' ')[0]}`;
+            }
+
+            // Check for pre-filled destination from Explore page
+            const pendingDest = localStorage.getItem('pendingDestination');
+            if (pendingDest) {
+                document.getElementById('trip-destination').value = pendingDest;
+                localStorage.removeItem('pendingDestination');
+            }
+
+            document.getElementById('logout-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                logoutUser();
+            });
+
+            // Set minimum date to today for native date inputs
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('trip-start').min = today;
+            document.getElementById('trip-end').min = today;
+
+            // Update end date min when start date changes
+            document.getElementById('trip-start').addEventListener('change', function() {
+                document.getElementById('trip-end').min = this.value;
+            });
+
+            // Form submit handler
+            document.getElementById('create-trip-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const tripData = {
+                    userId: user.id,
+                    id: 'trip_' + Date.now(),
+                    tripName: document.getElementById('trip-name').value,
+                    destination: document.getElementById('trip-destination').value,
+                    startDate: document.getElementById('trip-start').value,
+                    endDate: document.getElementById('trip-end').value,
+                    budget: document.getElementById('trip-budget').value,
+                    travelers: document.getElementById('trip-travelers').value,
+                    style: document.getElementById('trip-style').value,
+                    createdAt: new Date().toISOString()
+                };
+
+                // Show loading
+                const overlay = document.getElementById('loading-overlay');
+                overlay.style.display = 'flex';
+
+                // Simulate AI generation delay
+                setTimeout(() => {
+                    // Generate activities and save trip
+                    generateMockItineraryAndSave(tripData);
+                    window.location.href = `itinerary.html?id=${tripData.id}`;
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+
+</html>
