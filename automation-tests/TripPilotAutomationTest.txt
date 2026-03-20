@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -28,254 +27,252 @@ public class TripPilotAutomationTest {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
-        try {
-            // ─────────────────────────────────────────
-            // TEST 1: Window Management
-            // ─────────────────────────────────────────
-            System.out.println("\n===== TEST 1: Window Management =====");
-            driver.navigate().to(BASE_URL + "/index.html");
-            Thread.sleep(3000);
+        // ─────────────────────────────────────────
+        // TEST 1: Window Management
+        // ─────────────────────────────────────────
+        System.out.println("\n===== TEST 1: Window Management =====");
+        driver.navigate().to(BASE_URL + "/index.html");
+        Thread.sleep(3000);
 
-            driver.manage().window().maximize();
-            Thread.sleep(3000);
-            Dimension maxSize = driver.manage().window().getSize();
-            System.out.println("Maximized  -> Width: " + maxSize.getWidth() + " | Height: " + maxSize.getHeight());
+        driver.manage().window().maximize();
+        Thread.sleep(3000);
+        Dimension maxSize = driver.manage().window().getSize();
+        System.out.println("Maximized  -> Width: " + maxSize.getWidth() + " | Height: " + maxSize.getHeight());
 
-            driver.manage().window().minimize();
-            Thread.sleep(3000);
-            System.out.println("Window minimized");
+        driver.manage().window().minimize();
+        Thread.sleep(3000);
+        System.out.println("Window minimized");
 
-            driver.manage().window().fullscreen();
-            Thread.sleep(3000);
-            Dimension fullSize = driver.manage().window().getSize();
-            System.out.println("Fullscreen -> Width: " + fullSize.getWidth() + " | Height: " + fullSize.getHeight());
+        // Restore after minimize
+        driver.manage().window().maximize();
+        Thread.sleep(2000);
+        System.out.println("Window restored after minimize");
 
-            driver.manage().window().setSize(new Dimension(1280, 720));
-            Thread.sleep(3000);
-            Dimension customSize = driver.manage().window().getSize();
-            System.out.println("Custom     -> Width: " + customSize.getWidth() + " | Height: " + customSize.getHeight());
+        driver.manage().window().fullscreen();
+        Thread.sleep(3000);
+        Dimension fullSize = driver.manage().window().getSize();
+        System.out.println("Fullscreen -> Width: " + fullSize.getWidth() + " | Height: " + fullSize.getHeight());
+
+        driver.manage().window().setSize(new Dimension(1280, 720));
+        Thread.sleep(3000);
+        Dimension customSize = driver.manage().window().getSize();
+        System.out.println("Custom     -> Width: " + customSize.getWidth() + " | Height: " + customSize.getHeight());
 
 
-            // ─────────────────────────────────────────
-            // TEST 2: Register
-            // ─────────────────────────────────────────
-            System.out.println("\n===== TEST 2: Register =====");
-            driver.get(BASE_URL + "/register.html");
-            wait.until(ExpectedConditions.titleContains("Register"));
-            Thread.sleep(3000);
+        // ─────────────────────────────────────────
+        // TEST 2: Register
+        // ─────────────────────────────────────────
+        System.out.println("\n===== TEST 2: Register =====");
+        driver.get(BASE_URL + "/register.html");
+        wait.until(ExpectedConditions.titleContains("Register"));
+        Thread.sleep(3000);
 
-            System.out.println("Title       : " + driver.getTitle());
-            System.out.println("Current URL : " + driver.getCurrentUrl());
-            System.out.println("Form Loaded : " + driver.findElement(By.id("register-form")).isDisplayed());
+        System.out.println("Title       : " + driver.getTitle());
+        System.out.println("Current URL : " + driver.getCurrentUrl());
+        System.out.println("Form Loaded : " + driver.findElement(By.id("register-form")).isDisplayed());
 
-            driver.findElement(By.id("reg-name")).sendKeys("Selenium User");
-            Thread.sleep(1000);
-            String testEmail = "selenium_" + System.currentTimeMillis() + "@trippilot.com";
-            driver.findElement(By.id("reg-email")).sendKeys(testEmail);
-            Thread.sleep(1000);
-            driver.findElement(By.id("reg-password")).sendKeys("Test@123!");
-            Thread.sleep(1000);
-            driver.findElement(By.id("reg-confirm")).sendKeys("Test@123!");
-            Thread.sleep(1000);
+        driver.findElement(By.id("reg-name")).sendKeys("Selenium User");
+        Thread.sleep(1000);
+        String testEmail = "selenium_" + System.currentTimeMillis() + "@trippilot.com";
+        driver.findElement(By.id("reg-email")).sendKeys(testEmail);
+        Thread.sleep(1000);
+        driver.findElement(By.id("reg-password")).sendKeys("Test@123!");
+        Thread.sleep(1000);
+        driver.findElement(By.id("reg-confirm")).sendKeys("Test@123!");
+        Thread.sleep(1000);
 
-            System.out.println("Name  : " + driver.findElement(By.id("reg-name")).getAttribute("value"));
-            System.out.println("Email : " + driver.findElement(By.id("reg-email")).getAttribute("value"));
+        System.out.println("Name  : " + driver.findElement(By.id("reg-name")).getAttribute("value"));
+        System.out.println("Email : " + driver.findElement(By.id("reg-email")).getAttribute("value"));
 
-            driver.findElement(By.id("register-form")).submit();
+        driver.findElement(By.id("register-form")).submit();
             
-            // Wait for success alert box
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("alert-box")));
-            System.out.println("Alert message: " + driver.findElement(By.id("alert-box")).getText());
+        // Wait for success alert box
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("alert-box")));
+        System.out.println("Alert message: " + driver.findElement(By.id("alert-box")).getText());
             
-            // Wait to redirect to login
-            wait.until(ExpectedConditions.urlContains("login.html"));
-            Thread.sleep(3000);
-            System.out.println("After Register URL : " + driver.getCurrentUrl());
-            System.out.println("✅ Registered & redirected to Login");
+        // Wait to redirect to login
+        wait.until(ExpectedConditions.urlContains("login.html"));
+        Thread.sleep(3000);
+        System.out.println("After Register URL : " + driver.getCurrentUrl());
+        System.out.println("✅ Registered & redirected to Login");
 
 
-            // ─────────────────────────────────────────
-            // TEST 3: Login
-            // ─────────────────────────────────────────
-            System.out.println("\n===== TEST 3: Login =====");
-            // Already on Login, but navigate just to be sure
-            driver.navigate().to(BASE_URL + "/login.html");
-            wait.until(ExpectedConditions.titleContains("Login"));
-            Thread.sleep(3000);
+        // ─────────────────────────────────────────
+        // TEST 3: Login
+        // ─────────────────────────────────────────
+        System.out.println("\n===== TEST 3: Login =====");
+        // Already on Login, but navigate just to be sure
+        driver.navigate().to(BASE_URL + "/login.html");
+        wait.until(ExpectedConditions.titleContains("Login"));
+        Thread.sleep(3000);
 
-            System.out.println("Title       : " + driver.getTitle());
-            System.out.println("Current URL : " + driver.getCurrentUrl());
+        System.out.println("Title       : " + driver.getTitle());
+        System.out.println("Current URL : " + driver.getCurrentUrl());
 
-            WebElement loginEmail    = driver.findElement(By.id("login-email"));
-            WebElement loginPassword = driver.findElement(By.id("login-pw"));
-            WebElement loginBtn      = driver.findElement(By.id("login-button"));
+        WebElement loginEmail = driver.findElement(By.id("login-email"));
+        WebElement loginPassword = driver.findElement(By.id("login-pw"));
+        WebElement loginBtn = driver.findElement(By.id("login-button"));
 
-            loginEmail.sendKeys(testEmail);
-            Thread.sleep(1000);
-            loginPassword.sendKeys("Test@123!");
-            Thread.sleep(1000);
+        loginEmail.sendKeys(testEmail);
+        Thread.sleep(1000);
+        loginPassword.sendKeys("Test@123!");
+        Thread.sleep(1000);
 
-            System.out.println("Email : " + loginEmail.getAttribute("value"));
-            System.out.println("Btn   : " + loginBtn.getText());
+        System.out.println("Email : " + loginEmail.getAttribute("value"));
+        System.out.println("Btn   : " + loginBtn.getText());
 
-            loginBtn.click();
+        loginBtn.click();
             
-            // Wait for redirect to dashboard
-            wait.until(ExpectedConditions.urlContains("dashboard.html"));
-            Thread.sleep(3000);
+        // Wait for redirect to dashboard
+        wait.until(ExpectedConditions.urlContains("dashboard.html"));
+        Thread.sleep(3000);
 
-            String sessionUser = (String) js.executeScript("return localStorage.getItem('tripPilotUser');");
-            System.out.println("After Login URL : " + driver.getCurrentUrl());
-            System.out.println("User session stored : " + (sessionUser != null ? "YES ✅" : "NO ❌"));
-            System.out.println("✅ Logged in & redirected to Dashboard");
-
-
-            // ─────────────────────────────────────────
-            // TEST 4: Home Page & Browser Navigation
-            // ─────────────────────────────────────────
-            System.out.println("\n===== TEST 4: Home Page & Navigation =====");
-            driver.navigate().to(BASE_URL + "/index.html");
-            wait.until(ExpectedConditions.titleContains("TripPilot"));
-            Thread.sleep(3000);
-
-            System.out.println("Title        : " + driver.getTitle());
-            System.out.println("Hero Heading : " + driver.findElement(By.tagName("h1")).getText());
-            System.out.println("Hero Button  : " + driver.findElement(By.id("create-trip-btn")).getText());
-
-            // Navigation tests
-            driver.navigate().to(BASE_URL + "/dashboard.html");
-            Thread.sleep(2500);
-            System.out.println("Navigated to : " + driver.getCurrentUrl());
-
-            driver.navigate().back();
-            Thread.sleep(2500);
-            System.out.println("After Back   : " + driver.getCurrentUrl());
-
-            driver.navigate().forward();
-            Thread.sleep(2500);
-            System.out.println("After Forward: " + driver.getCurrentUrl());
-
-            driver.navigate().refresh();
-            Thread.sleep(2500);
-            System.out.println("After Refresh: " + driver.getCurrentUrl());
+        String sessionUser = (String) js.executeScript("return localStorage.getItem('tripPilotUser');");
+        System.out.println("After Login URL : " + driver.getCurrentUrl());
+        System.out.println("User session stored : " + (sessionUser != null ? "YES ✅" : "NO ❌"));
+        System.out.println("✅ Logged in & redirected to Dashboard");
 
 
-            // ─────────────────────────────────────────
-            // TEST 5: Create Trip (must be logged in)
-            // ─────────────────────────────────────────
-            System.out.println("\n===== TEST 5: Create Trip =====");
-            driver.navigate().to(BASE_URL + "/create-trip.html");
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("create-trip-form")));
-            Thread.sleep(3000);
+        // ─────────────────────────────────────────
+        // TEST 4: Home Page & Browser Navigation
+        // ─────────────────────────────────────────
+        System.out.println("\n===== TEST 4: Home Page & Navigation =====");
+        driver.navigate().to(BASE_URL + "/index.html");
+        wait.until(ExpectedConditions.titleContains("TripPilot"));
+        Thread.sleep(3000);
 
-            System.out.println("Title       : " + driver.getTitle());
-            System.out.println("Current URL : " + driver.getCurrentUrl());
+        System.out.println("Title        : " + driver.getTitle());
+        System.out.println("Hero Heading : " + driver.findElement(By.tagName("h1")).getText());
+        System.out.println("Hero Button  : " + driver.findElement(By.id("create-trip-btn")).getText());
 
-            // Fill all required fields
-            driver.findElement(By.id("trip-name")).sendKeys("Summer Vacation in Tokyo");
-            Thread.sleep(1000);
-            driver.findElement(By.id("trip-destination")).sendKeys("Tokyo, Japan");
-            Thread.sleep(1000);
+        // Navigation tests
+        driver.navigate().to(BASE_URL + "/dashboard.html");
+        Thread.sleep(2500);
+        System.out.println("Navigated to : " + driver.getCurrentUrl());
+
+        driver.navigate().back();
+        Thread.sleep(2500);
+        System.out.println("After Back   : " + driver.getCurrentUrl());
+
+        driver.navigate().forward();
+        Thread.sleep(2500);
+        System.out.println("After Forward: " + driver.getCurrentUrl());
+
+        driver.navigate().refresh();
+        Thread.sleep(2500);
+        System.out.println("After Refresh: " + driver.getCurrentUrl());
+
+
+        // ─────────────────────────────────────────
+        // TEST 5: Create Trip (must be logged in)
+        // ─────────────────────────────────────────
+        System.out.println("\n===== TEST 5: Create Trip =====");
+        driver.navigate().to(BASE_URL + "/create-trip.html");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("create-trip-form")));
+        Thread.sleep(3000);
+
+        System.out.println("Title       : " + driver.getTitle());
+        System.out.println("Current URL : " + driver.getCurrentUrl());
+
+        // Fill all required fields
+        driver.findElement(By.id("trip-name")).sendKeys("Summer Vacation in Tokyo");
+        Thread.sleep(1000);
+        driver.findElement(By.id("trip-destination")).sendKeys("Tokyo, Japan");
+        Thread.sleep(1000);
             
-            // Set dates directly — native <input type="date"> works perfectly with .value
-            js.executeScript("document.getElementById('trip-start').value = '2026-07-10'");
-            Thread.sleep(1000);
-            js.executeScript("document.getElementById('trip-end').value = '2026-07-20'");
-            Thread.sleep(1000);
+        // Set dates directly — native <input type="date"> works perfectly with .value
+        js.executeScript("document.getElementById('trip-start').value = '2026-07-10'");
+        Thread.sleep(1000);
+        js.executeScript("document.getElementById('trip-end').value = '2026-07-20'");
+        Thread.sleep(1000);
 
-            driver.findElement(By.id("trip-budget")).sendKeys("4500");
-            Thread.sleep(1000);
-            driver.findElement(By.id("trip-travelers")).sendKeys("2");
-            Thread.sleep(1000);
-            new Select(driver.findElement(By.id("trip-style"))).selectByValue("adventure");
-            Thread.sleep(1000);
+        driver.findElement(By.id("trip-budget")).sendKeys("4500");
+        Thread.sleep(1000);
+        driver.findElement(By.id("trip-travelers")).sendKeys("2");
+        Thread.sleep(1000);
+        new Select(driver.findElement(By.id("trip-style"))).selectByValue("adventure");
+        Thread.sleep(1000);
 
-            System.out.println("Trip Name   : " + driver.findElement(By.id("trip-name")).getAttribute("value"));
-            System.out.println("Destination : " + driver.findElement(By.id("trip-destination")).getAttribute("value"));
-            System.out.println("Travel Style: " + new Select(driver.findElement(By.id("trip-style"))).getFirstSelectedOption().getText());
+        System.out.println("Trip Name   : " + driver.findElement(By.id("trip-name")).getAttribute("value"));
+        System.out.println("Destination : " + driver.findElement(By.id("trip-destination")).getAttribute("value"));
+        System.out.println("Travel Style: " + new Select(driver.findElement(By.id("trip-style"))).getFirstSelectedOption().getText());
 
-            // Submit the form
-            driver.findElement(By.id("generate-itinerary")).click();
-            System.out.println("Waiting for simulated AI generator overlay...");
+        // Submit the form
+        driver.findElement(By.id("generate-itinerary")).click();
+        System.out.println("Waiting for simulated AI generator overlay...");
             
-            // Wait for redirect to itinerary.html
-            wait.until(ExpectedConditions.urlContains("itinerary.html"));
-            Thread.sleep(3000);
-            System.out.println("After Submit URL: " + driver.getCurrentUrl());
-            System.out.println("✅ Trip submitted and generated");
+        // Wait for redirect to itinerary.html
+        wait.until(ExpectedConditions.urlContains("itinerary.html"));
+        Thread.sleep(3000);
+        System.out.println("After Submit URL: " + driver.getCurrentUrl());
+        System.out.println("✅ Trip submitted and generated");
 
 
-            // ─────────────────────────────────────────
-            // TEST 6: Explore Destinations (Search Bar)
-            // ─────────────────────────────────────────
-            System.out.println("\n===== TEST 6: Search Destinations =====");
-            driver.navigate().to(BASE_URL + "/explore.html");
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("destination-search")));
-            Thread.sleep(3000);
+        // ─────────────────────────────────────────
+        // TEST 6: Explore Destinations (Search Bar)
+        // ─────────────────────────────────────────
+        System.out.println("\n===== TEST 6: Search Destinations =====");
+        driver.navigate().to(BASE_URL + "/explore.html");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("destination-search")));
+        Thread.sleep(3000);
 
-            WebElement searchBar = driver.findElement(By.id("destination-search"));
+        WebElement searchBar = driver.findElement(By.id("destination-search"));
 
-            searchBar.sendKeys("Japan");
-            // Reacts on input, so wait a bit
-            Thread.sleep(2500);
-            System.out.println("Searched : " + searchBar.getAttribute("value"));
+        searchBar.sendKeys("Japan");
+        // Reacts on input, so wait a bit
+        Thread.sleep(2500);
+        System.out.println("Searched : " + searchBar.getAttribute("value"));
 
-            searchBar.clear();
-            searchBar.sendKeys("Bali");
-            Thread.sleep(2500);
-            System.out.println("Searched : " + searchBar.getAttribute("value"));
+        searchBar.clear();
+        searchBar.sendKeys("Bali");
+        Thread.sleep(2500);
+        System.out.println("Searched : " + searchBar.getAttribute("value"));
 
-            searchBar.clear();
-            searchBar.sendKeys("Rome");
-            Thread.sleep(2500);
-            System.out.println("Searched : " + searchBar.getAttribute("value"));
-
-
-            // ─────────────────────────────────────────
-            // TEST 7: My Trips
-            // ─────────────────────────────────────────
-            System.out.println("\n===== TEST 7: My Trips =====");
-            driver.navigate().to(BASE_URL + "/my-trips.html");
-            wait.until(ExpectedConditions.titleContains("My Trips"));
-            Thread.sleep(3000);
-
-            System.out.println("Title       : " + driver.getTitle());
-            System.out.println("Current URL : " + driver.getCurrentUrl());
-            
-            WebElement tripsContainer = driver.findElement(By.id("trips-container"));
-            if (tripsContainer.getText().contains("Summer Vacation in Tokyo")) {
-                System.out.println("✅ Created trip found in My Trips list.");
-            } else {
-                System.out.println("❌ Created trip missing from My Trips.");
-            }
-            Thread.sleep(3000);
+        searchBar.clear();
+        searchBar.sendKeys("Rome");
+        Thread.sleep(2500);
+        System.out.println("Searched : " + searchBar.getAttribute("value"));
 
 
-            // ─────────────────────────────────────────
-            // TEST 8: Logout
-            // ─────────────────────────────────────────
-            System.out.println("\n===== TEST 8: Logout =====");
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("logout-btn")));
-            driver.findElement(By.id("logout-btn")).click();
-            Thread.sleep(3000);
+        // ─────────────────────────────────────────
+        // TEST 7: My Trips
+        // ─────────────────────────────────────────
+        System.out.println("\n===== TEST 7: My Trips =====");
+        driver.navigate().to(BASE_URL + "/my-trips.html");
+        wait.until(ExpectedConditions.titleContains("My Trips"));
+        Thread.sleep(3000);
 
-            String userAfterLogout = (String) js.executeScript("return localStorage.getItem('tripPilotUser');");
-            System.out.println("Session after logout : " + userAfterLogout);  // null
-            System.out.println("After Logout URL     : " + driver.getCurrentUrl());
-            System.out.println("✅ Logged out successfully");
+        System.out.println("Title       : " + driver.getTitle());
+        System.out.println("Current URL : " + driver.getCurrentUrl());
 
-
-            // ─────────────────────────────────────────
-            // ALL TESTS COMPLETE
-            // ─────────────────────────────────────────
-            System.out.println("\n===== ALL TESTS COMPLETED =====");
-            Thread.sleep(3000);
-            driver.quit();
-
-        } catch (Exception e) {
-            System.err.println("\n❌ TEST SUITE FAILED!");
-            e.printStackTrace();
-            driver.quit();
+        WebElement tripsContainer = driver.findElement(By.id("trips-container"));
+        if (tripsContainer.getText().contains("Summer Vacation in Tokyo")) {
+            System.out.println("✅ Created trip found in My Trips list.");
+        } else {
+            System.out.println("❌ Created trip missing from My Trips.");
         }
+        Thread.sleep(3000);
+
+
+        // ─────────────────────────────────────────
+        // TEST 8: Logout
+        // ─────────────────────────────────────────
+        System.out.println("\n===== TEST 8: Logout =====");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("logout-btn")));
+        driver.findElement(By.id("logout-btn")).click();
+        Thread.sleep(3000);
+
+        String userAfterLogout = (String) js.executeScript("return localStorage.getItem('tripPilotUser');");
+        System.out.println("Session after logout : " + userAfterLogout);  // null
+        System.out.println("After Logout URL     : " + driver.getCurrentUrl());
+        System.out.println("✅ Logged out successfully");
+
+
+        // ─────────────────────────────────────────
+        // ALL TESTS COMPLETE
+        // ─────────────────────────────────────────
+        System.out.println("\n===== ALL TESTS COMPLETED =====");
+        Thread.sleep(3000);
+        driver.quit();
     }
 }

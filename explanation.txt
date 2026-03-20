@@ -1,24 +1,21 @@
-Travel Itinerary Planner - Selenium Test Code Explanations
+Travel Itinerary Planner - Selenium Test Code Explanations (Simplified Version)
 
-1) Why did we use try-catch?
+1) Why did we remove try-catch?
 
-The try-catch block is used for test stability and cleanup safety.
+Your updated test files now follow a simple linear script style.
 
-- In Selenium tests, failures can happen at runtime (element not found, timeout, stale element, wrong URL, browser crash).
-- If one step fails and there is no catch block, the program stops immediately and the browser may remain open.
-- In your code, catch(Exception e) does three useful things:
-  1. Prints a clear failure message (for quick debugging).
-  2. Prints full stack trace (to find exact error line/cause).
-  3. Calls driver.quit() to close all browser windows and release system resources.
+- You asked to avoid the try-catch concept.
+- So each test now runs step by step from top to bottom.
+- At the end of each test, `driver.quit()` is called directly.
 
-Why this matters in automation:
-- Prevents orphaned browser sessions.
-- Makes test failures readable in console logs.
-- Keeps next test runs clean and predictable.
+This makes the code easier to read for beginners because:
+- Less nesting
+- Fewer extra blocks
+- Easier to follow execution order
 
-Note:
-- A stronger pattern is try-finally, where driver.quit() is in finally so cleanup always runs.
-- Current code calls driver.quit() in both success path and catch path, which still works.
+Important note:
+- Without try-catch, if any step fails in between, the program stops immediately and browser cleanup may not happen.
+- This is acceptable for simple learning scripts, but in production automation teams usually use try-catch/finally or test framework hooks.
 
 ------------------------------------------------------------
 
@@ -60,10 +57,9 @@ Java standard library:
 - java.time.Duration
   Purpose: Defines wait timeout duration (for WebDriverWait).
 
-Observations from your files:
-- WebDriverWait is imported twice in each file (duplicate import).
-- Some imports are unused in some tests (for example, Select in tests that do not use dropdowns).
-These do not usually break execution, but can be cleaned for readability.
+After simplification:
+- Duplicate WebDriverWait imports were removed.
+- Unused imports were removed from each test file.
 
 ------------------------------------------------------------
 
@@ -100,8 +96,8 @@ H) State/session verification
 I) Basic reporting/logging
 - Console output for title, URL, field values, pass/fail markers.
 
-J) Error handling and cleanup
-- try-catch with failure logs and driver.quit().
+J) Basic cleanup handling
+- driver.quit() is called at the end of each test.
 
 ------------------------------------------------------------
 
@@ -140,9 +136,9 @@ Step-by-step flow:
 - Sets size to 1280x720.
 - Reads and prints final size.
 
-7. Completion and cleanup
+7. Completion
 - Prints completion message.
-- Quits browser.
+- Quits browser at end.
 
 Testing concept shown strongly:
 - Window management APIs and viewport behavior.
@@ -177,8 +173,8 @@ Step-by-step flow:
 - Executes JS to read localStorage key tripPilotUser.
 - Prints whether session data exists.
 
-5. Cleanup
-- Prints completion and quits browser.
+5. Completion
+- Prints completion and quits browser at end.
 
 Testing concept shown strongly:
 - Multi-step functional + end-to-end user journey with state validation.
@@ -205,8 +201,8 @@ Step-by-step flow:
 - Uses browser back, forward, and refresh methods.
 - Prints URL after each action to verify history transitions.
 
-4. Cleanup
-- Prints success and quits browser.
+4. Completion
+- Prints success and quits browser at end.
 
 Testing concept shown strongly:
 - Navigation flow verification (history stack behavior + page identity checks).
@@ -240,8 +236,8 @@ Step-by-step flow:
 - Waits for redirect to itinerary page.
 - Prints final URL and success message.
 
-6. Cleanup
-- Prints completion and quits browser.
+6. Completion
+- Prints completion and quits browser at end.
 
 Testing concept shown strongly:
 - Form automation + synchronization + post-submit navigation assertion.
@@ -256,8 +252,9 @@ Additional improvement suggestions (optional):
 2. Move common setup/teardown into reusable methods or a base test class.
 - Avoid repeated code in every test file.
 
-3. Use finally for guaranteed cleanup.
-- Example pattern: try { ... } catch(...) { ... } finally { driver.quit(); }
+3. Keep a separate "simple" and "advanced" version.
+- Simple version for learning.
+- Advanced version can include robust error handling.
 
-4. Remove duplicate and unused imports.
-- Keeps code clean and easier to maintain.
+4. Continue keeping imports clean.
+- Improves readability and maintenance.
