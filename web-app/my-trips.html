@@ -74,7 +74,7 @@
                 <a href="budget.html" class="sidebar-link"><i class="fa-solid fa-wallet"></i> Budget Tracker</a>
                 <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i> Profile Settings</a>
                 <a href="#" class="sidebar-link text-danger" id="logout-btn"
-                    style="color: #ef4444; margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    style="color: var(--accent-color); margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             </div>
         </aside>
 
@@ -124,7 +124,7 @@
                     const start = new Date(trip.startDate).toLocaleDateString();
                     const end = new Date(trip.endDate).toLocaleDateString();
                     const isPast = new Date(trip.endDate) < new Date();
-                    const statusBadge = isPast ? '<span class="budget-tag" style="background:#f3f4f6; color:#4b5563;">Completed</span>' : '<span class="budget-tag" style="background:#dbeafe; color:#1e40af;">Upcoming</span>';
+                    const statusBadge = isPast ? '<span class="budget-tag" style="background:rgba(148,163,184,0.18); color:#CBD5E1;">Completed</span>' : '<span class="budget-tag" style="background:rgba(139,92,246,0.22); color:#E9D5FF;">Upcoming</span>';
 
                     container.innerHTML += `
             <div class="trip-list-item" id="trip-card-${trip.id}">

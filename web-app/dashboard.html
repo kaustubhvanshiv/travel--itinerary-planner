@@ -27,7 +27,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            background: rgba(0, 119, 182, 0.1);
+            background: rgba(139, 92, 246, 0.16);
             color: var(--primary-color);
         }
 
@@ -64,7 +64,7 @@
             <a href="index.html" class="navbar-brand"><i class="fa-solid fa-plane-up"></i> TripPilot</a>
             <div id="user-menu" style="display: flex; gap: 1rem; align-items: center;">
                 <span id="user-name-display" class="font-weight-bold"></span>
-                <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" alt="Avatar"
+                <img src="https://ui-avatars.com/api/?name=User&background=7C3AED&color=fff" alt="Avatar"
                     id="user-avatar" style="width: 40px; height: 40px; border-radius: 50%;">
             </div>
         </div>
@@ -81,7 +81,7 @@
                 <a href="budget.html" class="sidebar-link"><i class="fa-solid fa-wallet"></i> Budget Tracker</a>
                 <a href="profile.html" class="sidebar-link"><i class="fa-solid fa-user"></i> Profile Settings</a>
                 <a href="#" class="sidebar-link text-danger" id="logout-btn"
-                    style="color: #ef4444; margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    style="color: var(--accent-color); margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             </div>
         </aside>
 
@@ -167,7 +167,7 @@
             const user = getCurrentUser();
             if (user) {
                 document.getElementById('user-name-display').textContent = `Hi, ${user.name.split(' ')[0]}`;
-                document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=0D8ABC&color=fff`;
+                document.getElementById('user-avatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=7C3AED&color=fff`;
             }
 
             document.getElementById('logout-btn').addEventListener('click', (e) => {

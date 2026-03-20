@@ -25,9 +25,7 @@ public class Test1_WindowManagement {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         try {
-            // ─────────────────────────────────────────
             // TEST 1: Window Management
-            // ─────────────────────────────────────────
             System.out.println("\n===== TEST 1: Window Management =====");
             driver.navigate().to(BASE_URL + "/index.html");
             Thread.sleep(3000);
@@ -42,6 +40,11 @@ public class Test1_WindowManagement {
             driver.manage().window().minimize();
             Thread.sleep(3000);
             System.out.println("Window minimized");
+
+            // Restore after minimize
+            driver.manage().window().maximize();
+            Thread.sleep(2000);
+            System.out.println("Window restored after minimize");
 
             // Fullscreen
             driver.manage().window().fullscreen();

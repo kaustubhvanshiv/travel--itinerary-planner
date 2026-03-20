@@ -33,7 +33,7 @@
         }
 
         .day-header {
-            background: rgba(0, 119, 182, 0.05);
+            background: rgba(139, 92, 246, 0.12);
             padding: 1rem 1.5rem;
             border-bottom: 1px solid var(--border-color);
             display: flex;
@@ -93,8 +93,8 @@
         }
 
         .budget-tag {
-            background: #d1fae5;
-            color: #065f46;
+            background: rgba(167, 139, 250, 0.22);
+            color: #E9D5FF;
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
             font-size: 0.8rem;
@@ -174,7 +174,7 @@
             const endDate = new Date(trip.endDate).toLocaleDateString();
 
             let html = `
-        <div class="itinerary-header text-center" style="background: linear-gradient(rgba(0, 119, 182, 0.8), rgba(3, 4, 94, 0.8)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;">
+        <div class="itinerary-header text-center" style="background: linear-gradient(rgba(124, 58, 237, 0.8), rgba(76, 29, 149, 0.8)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;">
           <div class="container">
             <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem; text-shadow: 0 4px 12px rgba(0,0,0,0.3);"><i class="fa-solid fa-location-dot"></i> ${trip.tripName}</h1>
             <h3 style="font-weight: 400; color: rgba(255,255,255,0.9);">${trip.destination} • ${startDate} - ${endDate} • ${trip.travelers} Traveler(s)</h3>

@@ -54,7 +54,7 @@
                 <a href="budget.html" class="sidebar-link"><i class="fa-solid fa-wallet"></i> Budget Tracker</a>
                 <a href="profile.html" class="sidebar-link active"><i class="fa-solid fa-user"></i> Profile Settings</a>
                 <a href="#" class="sidebar-link text-danger" id="logout-btn"
-                    style="color: #ef4444; margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    style="color: var(--accent-color); margin-top: auto;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             </div>
         </aside>
 
@@ -62,7 +62,7 @@
             <h2 class="mb-2">Profile Settings</h2>
 
             <div class="profile-header">
-                <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff&size=128" alt="Profile"
+                <img src="https://ui-avatars.com/api/?name=User&background=7C3AED&color=fff&size=128" alt="Profile"
                     id="profile-img" class="profile-avatar">
                 <div>
                     <h3 id="profile-name">User Name</h3>
@@ -131,7 +131,7 @@
                 document.getElementById('profile-email').textContent = user.email;
                 document.getElementById('form-name').value = user.name;
                 document.getElementById('form-email').value = user.email;
-                document.getElementById('profile-img').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=0D8ABC&color=fff&size=128`;
+                document.getElementById('profile-img').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=7C3AED&color=fff&size=128`;
             }
 
             document.getElementById('logout-btn').addEventListener('click', (e) => { e.preventDefault(); logoutUser(); });
